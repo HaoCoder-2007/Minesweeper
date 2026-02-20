@@ -3,7 +3,30 @@
 #include <time.h>
 
 #define SIZE 9
-#define NUM_MINE 6
+#define NUM_MINE 10
+
+void saveGameResult(char board[SIZE][SIZE], int win, double timeTaken)
+{
+    FILE *f = fopen("result.txt", "a");
+    if (f == NULL) {
+        printf("ERROR!\n");
+        return;
+    }
+
+    fprintf(f, "--------------- RESULT ---------------\n");
+    fprintf(f, "Game: %s\n", win ? "WIN" : "LOSE");
+    fprintf(f, "Time: %.2fs\n", timeTaken);
+    fprintf(f, "Map:\n");
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            fprintf(f, "| %c ", board[i][j]);
+        }
+        fprintf(f, "|\n");
+    }
+    fprintf(f, "--------------------------------------\n\n");
+    fclose(f);
+}
 
 void printBoard(char board[SIZE][SIZE])
 {
@@ -85,7 +108,6 @@ void setMines(char board[SIZE][SIZE])
 void reveal(char board[SIZE][SIZE], char display_board[SIZE][SIZE], int x, int y, int* cellsOpened)
 {
     if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) return;
-    if (display_board[x][y] != '*') return;
 
     display_board[x][y] = board[x][y];
     (*cellsOpened)++;
@@ -108,6 +130,8 @@ void play(char board[SIZE][SIZE], char display_board[SIZE][SIZE])
     char t;
     int cellsOpened = 0;
     int totalCellsToOpen = (SIZE * SIZE) - NUM_MINE;
+
+    time_t start_time = time(NULL);
 
     while(1)
     {
@@ -169,9 +193,12 @@ void play(char board[SIZE][SIZE], char display_board[SIZE][SIZE])
             if(board[r-1][c-1] == 'B')
             {
                 printBoard(board);
+                time_t end_time = time(NULL);
+                double time_spent = difftime(end_time, start_time);
                 while(getchar() != '\n');
                 printf("\nThis cell has mine! You lose!\n");
                 getchar();
+                saveGameResult(board, 0, time_spent);
                 break;
             }
 
@@ -188,9 +215,12 @@ void play(char board[SIZE][SIZE], char display_board[SIZE][SIZE])
         if (cellsOpened == totalCellsToOpen)
         {
             printBoard(board);
+            time_t end_time = time(NULL);
+            double time_spent = difftime(end_time, start_time);
             while(getchar() != '\n');
-            printf("\nongratulation! You win!\n");
+            printf("\nCongratulation! You win!\n");
             getchar();
+            saveGameResult(board, 1, time_spent);
             break;
         }
     }
