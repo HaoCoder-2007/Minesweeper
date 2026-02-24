@@ -108,6 +108,7 @@ void setMines(char board[SIZE][SIZE])
 void reveal(char board[SIZE][SIZE], char display_board[SIZE][SIZE], int x, int y, int* cellsOpened)
 {
     if (x < 0 || x >= SIZE || y < 0 || y >= SIZE) return;
+    if (display_board[x][y] != '*') return;
 
     display_board[x][y] = board[x][y];
     (*cellsOpened)++;
@@ -162,7 +163,7 @@ void play(char board[SIZE][SIZE], char display_board[SIZE][SIZE])
             display_board[r-1][c-1] = 'F';
             continue;
         }
-        else if(t == 'u' || t == 'U')
+        if(t == 'u' || t == 'U')
         {
             if(display_board[r-1][c-1] != 'F')
             {
@@ -174,7 +175,7 @@ void play(char board[SIZE][SIZE], char display_board[SIZE][SIZE])
             display_board[r-1][c-1] = '*';
             continue;
         }
-        else if(t == 'o' || t == 'O')
+        if(t == 'o' || t == 'O')
         {
             if(display_board[r-1][c-1] != '*')
             {
