@@ -4,6 +4,17 @@
 
 #define SIZE 10
 #define NUM_MINE 10
+#define RESET "\033[0m"
+#define COLOR_1 "\033[1;36m"
+#define COLOR_2 "\033[1;32m"
+#define COLOR_3 "\033[0;31m"
+#define COLOR_4 "\033[1;34m"
+#define COLOR_5 "\033[1;31m"
+#define COLOR_6 "\033[1;36m"
+#define COLOR_7 "\033[1;30m"
+#define COLOR_8 "\033[1;37m"
+#define MINE_CLR "\033[1;31m"
+#define FLAG_CLR "\033[1;33m"
 
 void saveGameResult(char board[SIZE][SIZE], int win, double timeTaken)
 {
@@ -13,7 +24,7 @@ void saveGameResult(char board[SIZE][SIZE], int win, double timeTaken)
         return;
     }
 
-    fprintf(f, "--------------- RESULT ---------------\n");
+    fprintf(f, "--------------- RESULT ------------------\n");
     fprintf(f, "Game: %s\n", win ? "WIN" : "LOSE");
     fprintf(f, "Time: %.2fs\n", timeTaken);
     fprintf(f, "Map:\n");
@@ -24,7 +35,7 @@ void saveGameResult(char board[SIZE][SIZE], int win, double timeTaken)
         }
         fprintf(f, "|\n");
     }
-    fprintf(f, "--------------------------------------\n\n");
+    fprintf(f, "-----------------------------------------\n\n");
     fclose(f);
 }
 
@@ -42,13 +53,29 @@ void printBoard(char board[SIZE][SIZE])
         printf("%2d ", i+1);
         for(int j=0; j<SIZE; j++)
         {
-            printf("| %c ", board[i][j]);
+            printf("| ");
+            char c = board[i][j];
+            
+            switch(c)
+            {
+                case '1': printf("%s%c%s ", COLOR_1, c, RESET); break;
+                case '2': printf("%s%c%s ", COLOR_2, c, RESET); break;
+                case '3': printf("%s%c%s ", COLOR_3, c, RESET); break;
+                case '4': printf("%s%c%s ", COLOR_4, c, RESET); break;
+                case '5': printf("%s%c%s ", COLOR_5, c, RESET); break;
+                case '6': printf("%s%c%s ", COLOR_6, c, RESET); break;
+                case '7': printf("%s%c%s ", COLOR_7, c, RESET); break;
+                case '8': printf("%s%c%s ", COLOR_8, c, RESET); break;
+                case 'B': printf("%s%c%s ", MINE_CLR, c, RESET); break;
+                case 'F': printf("%s%c%s ", FLAG_CLR, c, RESET); break;
+                default:  printf("%c ", c);
+            }
         }
         printf("|");
         printf("\n");
     }
-    printf("\n>> %d mines <<\n\n", NUM_MINE);
-    printf("Type {O: open | F: flag | U: unflag}\n");
+    printf("\n>>\033[1;31m %d mines \033[0m<<\n\n", NUM_MINE);
+    printf("\033[1;36mType {O: open | F: flag | U: unflag}\033[0m\n");
     printf("\nEnter your choice: ([row] [column] [type]): ");
 }
 
@@ -119,6 +146,7 @@ void reveal(char board[SIZE][SIZE], char display_board[SIZE][SIZE], int x, int y
         {
             for (int j=-1; j<=1; j++)
             {
+                if (i == 0 && j == 0) continue;
                 reveal(board, display_board, x+i, y+j, cellsOpened);
             }
         }
