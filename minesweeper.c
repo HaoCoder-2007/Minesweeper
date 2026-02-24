@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#define SIZE 9
+#define SIZE 10
 #define NUM_MINE 10
 
 void saveGameResult(char board[SIZE][SIZE], int win, double timeTaken)
@@ -34,12 +34,12 @@ void printBoard(char board[SIZE][SIZE])
     printf("    ");
     for(int i=0; i<SIZE; i++)
     {
-        printf("%d   ", i+1);
+        printf("%2d  ", i+1);
     }
     printf("\n");
     for(int i=0; i<SIZE; i++)
     {
-        printf("%d ", i+1);
+        printf("%2d ", i+1);
         for(int j=0; j<SIZE; j++)
         {
             printf("| %c ", board[i][j]);
@@ -213,7 +213,7 @@ void play(char board[SIZE][SIZE], char display_board[SIZE][SIZE])
             continue;
         }
 
-        if (cellsOpened == totalCellsToOpen)
+        if (cellsOpened >= totalCellsToOpen)
         {
             printBoard(board);
             time_t end_time = time(NULL);
