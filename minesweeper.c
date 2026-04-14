@@ -5,22 +5,22 @@
 #define SIZE 10
 #define NUM_MINE 10
 #define RESET "\033[0m"
-#define COLOR_1 "\033[1;36m"
-#define COLOR_2 "\033[1;32m"
-#define COLOR_3 "\033[0;31m"
-#define COLOR_4 "\033[1;34m"
-#define COLOR_5 "\033[1;31m"
-#define COLOR_6 "\033[1;36m"
-#define COLOR_7 "\033[1;30m"
-#define COLOR_8 "\033[1;37m"
-#define MINE_CLR "\033[1;31m"
-#define FLAG_CLR "\033[1;33m"
+#define COLOR_1 "\033[1;36m" //blue
+#define COLOR_2 "\033[1;32m" //green
+#define COLOR_3 "\033[0;31m" //dark red
+#define COLOR_4 "\033[1;34m" //dark blue
+#define COLOR_5 "\033[1;31m" //red
+#define COLOR_6 "\033[1;36m"    //blue
+#define COLOR_7 "\033[1;30m" //grey
+#define COLOR_8 "\033[1;37m" //white
+#define MINE_CLR "\033[1;31m"   //red
+#define FLAG_CLR "\033[1;33m" //yellow
 
 void saveGameResult(char board[SIZE][SIZE], int win, double timeTaken)
 {
     FILE *f = fopen("result.txt", "a");
     if (f == NULL) {
-        printf("ERROR!\n");
+        printf("%s%s%s ", COLOR_5, "FILE SAVED ERROR!\n", RESET);
         return;
     }
 
