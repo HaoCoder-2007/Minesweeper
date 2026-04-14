@@ -161,6 +161,7 @@ void play(char board[SIZE][SIZE], char display_board[SIZE][SIZE])
     int totalCellsToOpen = (SIZE * SIZE) - NUM_MINE;
 
     time_t start_time = time(NULL);
+    while(getchar() != '\n');
 
     while(1)
     {
